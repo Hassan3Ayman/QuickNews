@@ -1,6 +1,5 @@
 package com.example.quicknews.ui.screens.home
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -22,12 +21,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import coil.compose.rememberAsyncImagePainter
 import com.example.quicknews.ui.screens.home.components.ArticleItem
 import com.example.quicknews.ui.screens.home.components.CategoryItem
+import com.smartapps.rscc.ui.navigation.LocalNavController
+import com.smartapps.rscc.ui.navigation.navigateToArticleDetails
 
 @Composable
 fun HomeScreen(
@@ -46,6 +45,7 @@ private fun HomeContent(
     onCategorySelected: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
+    val localNavController = LocalNavController.current
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -54,11 +54,6 @@ private fun HomeContent(
             .background(Color.White)
     ) {
         val scrollState = rememberLazyListState()
-        LaunchedEffect(state.articles) {
-            if (state.articles.isNotEmpty()){
-                scrollState.animateScrollToItem(0)
-            }
-        }
         Spacer(modifier = Modifier.height(16.dp))
         LazyRow(
             contentPadding = PaddingValues(start = 16.dp, end = 8.dp),
@@ -85,7 +80,7 @@ private fun HomeContent(
                        .height(200.dp)
                        .clip(RoundedCornerShape(8.dp)),
                    item = it,
-                   onClick = {}
+                   onClick = {localNavController.navigateToArticleDetails(it.id)}
                )
             }
         }

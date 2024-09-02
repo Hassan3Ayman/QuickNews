@@ -12,6 +12,7 @@ data class HomeUiState(
 )
 
 data class ItemArticleUiState(
+    val id: String,
     val title: String,
     val description: String,
     val publishedAt: String,
@@ -19,6 +20,7 @@ data class ItemArticleUiState(
 )
 
 fun Article.toArticleUiState() = ItemArticleUiState(
+    id = id,
     title = title,
     description = description,
     publishedAt = publishedAt,
