@@ -3,6 +3,7 @@ package com.example.quicknews.domain.entities
 import com.google.gson.annotations.SerializedName
 
 data class Article(
+    val id: String,
     val author: String,
     val title: String,
     val description: String,
