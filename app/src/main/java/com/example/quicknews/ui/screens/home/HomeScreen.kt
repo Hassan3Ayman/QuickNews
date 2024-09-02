@@ -14,8 +14,10 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -51,6 +53,12 @@ private fun HomeContent(
             .navigationBarsPadding()
             .background(Color.White)
     ) {
+        val scrollState = rememberLazyListState()
+        LaunchedEffect(state.articles) {
+            if (state.articles.isNotEmpty()){
+                scrollState.animateScrollToItem(0)
+            }
+        }
         Spacer(modifier = Modifier.height(16.dp))
         LazyRow(
             contentPadding = PaddingValues(start = 16.dp, end = 8.dp),
@@ -66,6 +74,7 @@ private fun HomeContent(
         }
         Spacer(modifier = Modifier.height(16.dp))
         LazyColumn(
+            state = scrollState,
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
