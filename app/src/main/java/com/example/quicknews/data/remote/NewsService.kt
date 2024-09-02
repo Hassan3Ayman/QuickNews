@@ -7,7 +7,7 @@ import retrofit2.http.Path
 
 interface NewsService {
 
-    @GET("category/us.json")
+    @GET("{category}/us.json")
     suspend fun getCategoryNews(
         @Path("category") category: String
     ): Response<NewsDto>
