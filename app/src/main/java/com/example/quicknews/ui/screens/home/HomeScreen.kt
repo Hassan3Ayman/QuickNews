@@ -69,7 +69,7 @@ private fun HomeContent(
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            items(state.articles) {
+            items(state.articles, key = { it.title }) {
                ArticleItem(
                    modifier = Modifier
                        .fillMaxWidth()
