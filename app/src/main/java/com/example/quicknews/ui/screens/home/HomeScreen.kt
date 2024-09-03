@@ -20,6 +20,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -38,9 +39,9 @@ import kotlinx.coroutines.launch
 fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
-    val state = viewModel.state.collectAsState()
+    val state by viewModel.state.collectAsState()
     HomeContent(
-        state = state.value,
+        state = state,
         onCategorySelected = viewModel::onCategorySelected,
         onGetSavedArticles = viewModel::onGetSavedArticles
     )
@@ -55,6 +56,7 @@ private fun HomeContent(
 ) {
     val localNavController = LocalNavController.current
     val scope = rememberCoroutineScope()
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -63,6 +65,7 @@ private fun HomeContent(
             .background(Color.White)
     ) {
         val scrollState = rememberLazyListState()
+
         Spacer(modifier = Modifier.height(16.dp))
         LazyRow(
             contentPadding = PaddingValues(start = 16.dp, end = 8.dp),

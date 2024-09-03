@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.quicknews.ui.theme.LightBrown
 
 @Composable
 fun CustomButton(
@@ -27,7 +28,7 @@ fun CustomButton(
             .padding(horizontal = 60.dp),
         shape = RoundedCornerShape(12.dp),
         contentPadding = PaddingValues(bottom = 12.dp, top = 16.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xFF846756)),
+        colors = ButtonDefaults.buttonColors(containerColor = LightBrown),
         onClick = onClick
     ) {
         Text(

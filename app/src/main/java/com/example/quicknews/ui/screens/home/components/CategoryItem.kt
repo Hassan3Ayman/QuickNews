@@ -18,6 +18,9 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.quicknews.ui.theme.BrightBlue
+import com.example.quicknews.ui.theme.LightGray
+import com.example.quicknews.ui.theme.VeryLightGray
 
 @Composable
 fun CategoryItem(
@@ -26,7 +29,7 @@ fun CategoryItem(
     onSelected: (String) -> Unit
 ) {
     val backgroundColor by animateColorAsState(
-        targetValue = if (isSelected) Color(0xFF1650C2) else Color(0xFFFAFAFA),
+        targetValue = if (isSelected) BrightBlue else VeryLightGray,
         label = ""
     )
 
@@ -36,7 +39,7 @@ fun CategoryItem(
 
     val modifier = if (isSelected) Modifier.border(
         width = 1.dp,
-        color = Color(0xFFF2F2F2),
+        color = LightGray,
         shape = RoundedCornerShape(8.dp)
     ) else Modifier
 

@@ -50,6 +50,7 @@ private fun ArticleDetailsContent(
     state: ArticleDetailsUiState
 ) {
     val context = LocalContext.current
+
     Column(
         modifier = modifier
             .fillMaxSize()
