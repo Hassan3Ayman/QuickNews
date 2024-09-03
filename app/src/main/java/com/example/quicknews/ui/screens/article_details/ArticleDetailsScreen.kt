@@ -35,21 +35,48 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.rememberAsyncImagePainter
 import com.example.quicknews.R
 import com.example.quicknews.ui.screens.components.CustomButton
+import com.kamel.client.ui.util.EventHandler
 
 @Composable
 fun ArticleDetailsScreen(
     viewModel: ArticleDetailsViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
-    ArticleDetailsContent(state = state)
+    val context = LocalContext.current
+    EventHandler(effects = viewModel.effect) { effect, _ ->
+        when (effect) {
+            is ArticleDetailsEvent.ReadMoreContent -> {
+                context.startActivity(
+                    Intent(
+                        Intent.ACTION_VIEW,
+                        Uri.parse(effect.url)
+                    )
+                )
+            }
+            is ArticleDetailsEvent.ShareUrl -> {
+                context.startActivity(
+                    Intent(Intent.ACTION_SEND).apply {
+                        putExtra(Intent.EXTRA_TEXT, effect.url)
+                        type = "text/plain"
+                    }
+                )
+            }
+        }
+    }
+    ArticleDetailsContent(
+        state = state,
+        onReadMoreContent = viewModel::onReadMoreContent,
+        onShareUrl = viewModel::onShareUrl
+    )
 }
 
 @Composable
 private fun ArticleDetailsContent(
-    modifier: Modifier = Modifier,
-    state: ArticleDetailsUiState
+    state: ArticleDetailsUiState,
+    onReadMoreContent: (String) -> Unit,
+    onShareUrl: (String) -> Unit,
+    modifier: Modifier = Modifier
 ) {
-    val context = LocalContext.current
 
     Column(
         modifier = modifier
@@ -78,7 +105,9 @@ private fun ArticleDetailsContent(
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row(
-            modifier = Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically
         ) {
@@ -104,26 +133,12 @@ private fun ArticleDetailsContent(
         )
         Spacer(modifier = Modifier.height(16.dp))
         CustomButton(
-            onClick = {
-                context.startActivity(
-                    Intent(
-                        Intent.ACTION_VIEW,
-                        Uri.parse(state.url)
-                    )
-                )
-            },
+            onClick = { onReadMoreContent(state.url) },
             text = stringResource(R.string.continue_reading)
         )
         Spacer(modifier = Modifier.height(16.dp))
         CustomButton(
-            onClick = {
-                context.startActivity(
-                    Intent(Intent.ACTION_SEND).apply {
-                        putExtra(Intent.EXTRA_TEXT, state.url)
-                        type = "text/plain"
-                    }
-                )
-            },
+            onClick = { onShareUrl(state.url) },
             text = stringResource(R.string.share)
         )
     }

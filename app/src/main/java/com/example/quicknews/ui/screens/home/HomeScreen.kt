@@ -31,7 +31,7 @@ import com.example.quicknews.ui.screens.components.ErrorState
 import com.example.quicknews.ui.screens.components.LoadingState
 import com.example.quicknews.ui.screens.home.components.ArticleItem
 import com.example.quicknews.ui.screens.home.components.CategoryItem
-import com.smartapps.rscc.ui.navigation.LocalNavController
+import com.kamel.client.ui.util.EventHandler
 import com.smartapps.rscc.ui.navigation.navigateToArticleDetails
 import kotlinx.coroutines.launch
 
@@ -40,10 +40,18 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
+    EventHandler(effects = viewModel.effect) { effect, navController ->
+        when (effect) {
+            is HomeEvent.NavigateToArticleDetails -> {
+                navController.navigateToArticleDetails(effect.id)
+            }
+        }
+    }
     HomeContent(
         state = state,
         onCategorySelected = viewModel::onCategorySelected,
-        onGetSavedArticles = viewModel::onGetSavedArticles
+        onGetSavedArticles = viewModel::onGetSavedArticles,
+        onNavigateToArticleDetails = viewModel::onNavigateToArticleDetails
     )
 }
 
@@ -52,9 +60,9 @@ private fun HomeContent(
     state: HomeUiState,
     onCategorySelected: (String) -> Unit,
     onGetSavedArticles: () -> Unit,
+    onNavigateToArticleDetails: (String) -> Unit,
     modifier: Modifier = Modifier
 ) {
-    val localNavController = LocalNavController.current
     val scope = rememberCoroutineScope()
 
     Column(
@@ -124,7 +132,7 @@ private fun HomeContent(
                             .height(200.dp)
                             .clip(RoundedCornerShape(8.dp)),
                         item = it,
-                        onClick = { localNavController.navigateToArticleDetails(it.id) }
+                        onClick = { onNavigateToArticleDetails(it.id)}
                     )
                 }
             }
