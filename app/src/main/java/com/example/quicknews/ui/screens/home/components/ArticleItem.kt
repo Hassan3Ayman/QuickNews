@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.rememberAsyncImagePainter
 import com.example.quicknews.ui.screens.home.ItemArticleUiState
+import com.example.quicknews.ui.theme.SemiTransparent
 
 @Composable
 fun ArticleItem(
@@ -45,8 +46,8 @@ fun ArticleItem(
                 .background(
                     brush = Brush.verticalGradient(
                         colors = listOf(
-                            Color(0x00000000),
-                            Color(0x83000000),
+                            Color.Transparent,
+                            SemiTransparent,
                         )
                     )
                 )
