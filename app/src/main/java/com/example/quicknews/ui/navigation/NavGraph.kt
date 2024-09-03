@@ -15,7 +15,7 @@ import androidx.navigation.navArgument
 import com.example.quicknews.ui.navigation.Screens
 import com.example.quicknews.ui.navigation.ScreensArgs
 import com.example.quicknews.ui.screens.home.HomeScreen
-import com.example.quicknews.ui.screens.home.article_details.ArticleDetailsScreen
+import com.example.quicknews.ui.screens.article_details.ArticleDetailsScreen
 
 val LocalNavController =
     compositionLocalOf<NavHostController> { error("No NavController found!") }

@@ -15,6 +15,7 @@ class NewsRepositoryImp @Inject constructor(
     private val newsService: NewsService,
     private val newsDao: NewsDao
 ) : NewsRepository {
+
     override suspend fun getCategories(): List<String> {
         return listOf(
             "general",
@@ -33,7 +34,7 @@ class NewsRepositoryImp @Inject constructor(
             if (response.isSuccessful) {
                 val articles = response.body()?.articles ?: emptyList()
                 insertArticlesToDB(articles)
-                return getArticlesFromDB()
+                return getSavedArticles()
             } else {
                 throw Exception("Something went wrong")
             }
@@ -52,18 +53,18 @@ class NewsRepositoryImp @Inject constructor(
         }
     }
 
-    private suspend fun insertArticlesToDB(articles: List<ArticleDto>) {
-        try {
-            newsDao.clearAllArticles()
-            newsDao.insertAllArticles(articles.map { it.toArticleLocalDto() })
+    override suspend fun getSavedArticles(): List<Article> {
+        return try {
+            newsDao.getAllArticles().map { it.toArticle() }
         } catch (e: Exception) {
             throw Exception("Something went wrong")
         }
     }
 
-    private suspend fun getArticlesFromDB(): List<Article> {
-        return try {
-            newsDao.getAllArticles().map { it.toArticle() }
+    private suspend fun insertArticlesToDB(articles: List<ArticleDto>) {
+        try {
+            newsDao.clearAllArticles()
+            newsDao.insertAllArticles(articles.map { it.toArticleLocalDto() })
         } catch (e: Exception) {
             throw Exception("Something went wrong")
         }

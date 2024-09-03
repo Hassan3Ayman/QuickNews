@@ -1,4 +1,4 @@
-package com.example.quicknews.ui.screens.home.article_details
+package com.example.quicknews.ui.screens.article_details
 
 import com.example.quicknews.domain.entities.Article
 
