@@ -40,6 +40,7 @@ fun HomeScreen(
     viewModel: HomeViewModel = hiltViewModel(),
 ) {
     val state by viewModel.state.collectAsState()
+    // comment
     EventHandler(effects = viewModel.effect) { effect, navController ->
         when (effect) {
             is HomeEvent.NavigateToArticleDetails -> {
